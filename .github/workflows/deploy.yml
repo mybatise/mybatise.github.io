@@ -24,15 +24,14 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-      - name: Install and Build
+      - name: Install
         if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: |
-          yarn install
-          yarn run build
+        run: yarn install
+      - name: Build
+        run: yarn run build
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: release
           FOLDER: dist
-      
